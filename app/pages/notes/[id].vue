@@ -24,28 +24,28 @@ const {
 </script>
 
 <template>
-  <div class="space-y-6">
+  <div class="note-page">
     <BackButton />
 
     <div>
       <h1
         v-if="!isCreateMode && !sourceNote"
-        class="text-xl font-semibold"
+        class="note-page__not-found"
       >
         Заметка не найдена
       </h1>
 
       <div
         v-else
-        class="flex flex-col gap-6"
+        class="note-page__editor"
       >
-        <h1 class="text-2xl font-semibold">
+        <h1 class="note-page__page-title">
           {{ isCreateMode ? 'Создание заметки' : 'Редактирование заметки' }}
         </h1>
 
         <UCard>
           <template #header>
-            <h2 class="text-lg font-medium">
+            <h2 class="note-page__card-heading">
               Заголовок заметки
             </h2>
           </template>
@@ -53,7 +53,7 @@ const {
           <UInput
             v-model="title"
             size="lg"
-            class="w-full"
+            class="note-page__title-input"
             placeholder="Введите заголовок заметки"
           />
         </UCard>
@@ -66,7 +66,7 @@ const {
           @update-done="updateTodoDone($event.todoId, $event.done)"
         />
 
-        <div class="flex flex-wrap flex-col sm:flex-row gap-2">
+        <div class="note-page__actions">
           <UButton
             icon="i-lucide-save"
             :disabled="!title.trim().length || !isDirty"
@@ -112,3 +112,49 @@ const {
     />
   </div>
 </template>
+
+<style scoped lang="scss">
+@use '~/assets/scss/variables' as app;
+
+.note-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  &__editor {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  &__page-title {
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  &__not-found {
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  &__card-heading {
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  &__title-input {
+    width: 100%;
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    @media (min-width: app.$bp-sm) {
+      flex-direction: row;
+    }
+  }
+}
+</style>

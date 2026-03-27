@@ -16,10 +16,10 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <UCard>
+  <UCard class="todo-editor-card">
     <template #header>
-      <div class="flex flex-wrap items-center justify-between gap-3">
-        <h2 class="text-lg font-medium">
+      <div class="todo-editor-card__header">
+        <h2 class="todo-editor-card__title">
           Todo
         </h2>
         <UButton
@@ -34,7 +34,7 @@ const emit = defineEmits<{
 
     <div
       v-if="props.todos.length"
-      class="space-y-3"
+      class="todo-editor-card__list"
     >
       <TodoItemEditor
         v-for="todo in props.todos"
@@ -47,9 +47,37 @@ const emit = defineEmits<{
     </div>
     <p
       v-else
-      class="text-sm text-muted"
+      class="todo-editor-card__empty"
     >
       Добавьте первый пункт Todo.
     </p>
   </UCard>
 </template>
+
+<style scoped lang="scss">
+.todo-editor-card {
+  &__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  &__title {
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__empty {
+    font-size: 14px;
+    color: var(--ui-text-muted, #737373);
+  }
+}
+</style>

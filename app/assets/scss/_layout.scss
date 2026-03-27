@@ -1,0 +1,17 @@
+@use './variables' as app;
+
+.app-layout {
+  width: 100%;
+  max-width: app.$app-content-max-width;
+  margin-inline: auto;
+  padding-block: 32px;
+  padding-inline: 16px;
+
+  @media (min-width: app.$bp-sm) {
+    padding-inline: 24px;
+  }
+
+  @media (min-width: app.$bp-lg) {
+    padding-inline: 32px;
+  }
+}

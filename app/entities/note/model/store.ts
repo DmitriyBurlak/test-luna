@@ -4,7 +4,7 @@ import { computed, ref, watch } from 'vue'
 import { createId } from '~/shared/lib/createId'
 import type { Note, TodoItem } from './types'
 
-const TODO_PREVIEW_LIMIT = 6
+const TODO_PREVIEW_LIMIT = 4
 const NOTES_STORAGE_KEY = 'notes-store-v1'
 
 function cloneTodos(todos: TodoItem[]): TodoItem[] {

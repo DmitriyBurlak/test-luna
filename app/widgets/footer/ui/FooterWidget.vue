@@ -1,7 +1,7 @@
 <template>
   <UFooter>
     <template #left>
-      <p class="text-sm text-muted">
+      <p class="footer-widget__text">
         Built with Nuxt UI • © {{ new Date().getFullYear() }}
       </p>
     </template>
@@ -18,3 +18,10 @@
     </template>
   </UFooter>
 </template>
+
+<style scoped lang="scss">
+.footer-widget__text {
+  font-size: 14px;
+  color: var(--ui-text-muted, #737373);
+}
+</style>

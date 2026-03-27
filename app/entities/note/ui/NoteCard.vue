@@ -15,18 +15,23 @@ const emit = defineEmits<{
 function openNote() {
   router.push(`/notes/${props.note.id}`)
 }
+
+function checkboxLabelClass(done: boolean) {
+  return [
+    'note-card__checkbox-label',
+    done ? 'note-card__checkbox-label--done' : ''
+  ].filter(Boolean).join(' ')
+}
 </script>
 
 <template>
-  <UCard
-    class="h-full min-h-[240px]"
-  >
+  <UCard class="note-card">
     <template #header>
       <div
-        class="flex items-center justify-between gap-2 cursor-pointer"
+        class="note-card__header"
         @click="openNote"
       >
-        <h3 class="text-sm sm:text-base font-semibold leading-tight line-clamp-2">
+        <h3 class="note-card__title">
           {{ props.note.title }}
         </h3>
         <UButton
@@ -34,37 +39,109 @@ function openNote() {
           variant="soft"
           size="sm"
           icon="i-lucide-trash"
-          class="cursor-pointer"
+          class="note-card__delete"
           @click.stop="emit('delete', props.note.id)"
         />
       </div>
     </template>
 
-    <div class="space-y-2 min-h-24">
+    <div class="note-card__body">
       <div
         v-if="props.previewTodos.length"
-        class="space-y-1.5 text-xs sm:text-sm max-h-31 overflow-y-auto pr-1"
+        class="note-card__todo-list"
       >
-        <div
+        <template
           v-for="todo in props.previewTodos"
           :key="todo.id"
-          class="flex items-start gap-2"
         >
           <UCheckbox
             :model-value="todo.done"
             disabled
             :label="todo.text || 'Без текста'"
-            class="pointer-events-none mt-0.5"
-            :ui="{ label: `text-muted line-clamp-1 ${todo.done ? 'line-through opacity-70' : ''}` }"
+            class="note-card__checkbox"
+            :ui="{ label: checkboxLabelClass(todo.done) }"
           />
-        </div>
+        </template>
       </div>
       <p
         v-else
-        class="text-xs sm:text-sm text-muted"
+        class="note-card__empty"
       >
         Пока нет задач в заметке
       </p>
     </div>
   </UCard>
 </template>
+
+<style scoped lang="scss">
+@use '~/assets/scss/variables' as app;
+
+.note-card {
+  height: 100%;
+  min-height: 210px;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    cursor: pointer;
+  }
+
+  &__title {
+    font-size: 14px;
+    font-weight: 600;
+
+    @media (min-width: app.$bp-sm) {
+      font-size: 16px;
+    }
+  }
+
+  &__delete {
+    flex-shrink: 0;
+    cursor: pointer!important;
+  }
+
+  &__body {
+    min-height: 96px;
+  }
+
+  &__todo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 124px;
+    overflow-y: auto;
+    font-size: 12px;
+
+    @media (min-width: app.$bp-sm) {
+      font-size: 14px;
+    }
+  }
+
+  &__checkbox {
+    pointer-events: none;
+  }
+
+  &__empty {
+    font-size: 12px;
+    color: var(--ui-text-muted, #737373);
+
+    @media (min-width: app.$bp-sm) {
+      font-size: 14px;
+    }
+  }
+}
+
+:deep(.note-card__checkbox-label) {
+  color: var(--ui-text-muted, #737373);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+:deep(.note-card__checkbox-label--done) {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+</style>

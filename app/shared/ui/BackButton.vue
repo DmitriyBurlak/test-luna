@@ -6,21 +6,24 @@ const props = withDefaults(defineProps<{
   label: 'назад',
   to: '/'
 })
-
-const router = useRouter()
-
-function navigateBack() {
-  router.push(props.to)
-}
 </script>
 
 <template>
-  <UButton
-    color="neutral"
-    variant="ghost"
-    icon="i-lucide-arrow-left"
-    @click="navigateBack"
-  >
-    {{ props.label }}
-  </UButton>
+  <div class="btn-back">
+    <UButton
+      color="neutral"
+      variant="link"
+      icon="i-lucide-arrow-left"
+      :to="props.to"
+    >
+      {{ props.label }}
+    </UButton>
+  </div>
+
 </template>
+
+<style scoped lang="scss">
+.btn-back {
+  max-width: max-content;
+}
+</style>

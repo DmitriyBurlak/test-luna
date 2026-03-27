@@ -23,14 +23,14 @@ const doneModel = computed({
 </script>
 
 <template>
-  <div class="flex items-center gap-2">
+  <div class="todo-item-editor">
     <UCheckbox
       v-model="doneModel"
       aria-label="Отметить задачу выполненной"
     />
     <UInput
       v-model="textModel"
-      class="flex-1"
+      class="todo-item-editor__input"
       placeholder="Текст задачи"
     />
     <UButton
@@ -43,3 +43,16 @@ const doneModel = computed({
     />
   </div>
 </template>
+
+<style scoped lang="scss">
+.todo-item-editor {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  &__input {
+    flex: 1;
+    min-width: 0;
+  }
+}
+</style>

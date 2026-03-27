@@ -4,7 +4,6 @@ import { useNotesStore } from '~/entities/note'
 import ConfirmModal from '~/shared/ui/ConfirmModal.vue'
 
 const notesStore = useNotesStore()
-const router = useRouter()
 
 const noteIdForDelete = ref<string | null>(null)
 const isDeleteModalOpen = computed({
@@ -22,10 +21,6 @@ const selectedNote = computed(() =>
 
 const notes = computed(() => notesStore.allNotes)
 
-function goToCreateNote() {
-  router.push('/notes/new')
-}
-
 function requestDeleteNote(noteId: string) {
   noteIdForDelete.value = noteId
 }
@@ -41,39 +36,37 @@ function confirmDeleteNote() {
 </script>
 
 <template>
-  <div class="space-y-6">
-    <section class="flex! justify-between! flex-wrap gap-4!">
-      <h1 class="text-2xl font-semibold">
+  <div class="notes-page">
+    <section class="notes-page__header">
+      <h1 class="notes-page__title">
         Заметки
       </h1>
       <UButton
         icon="i-lucide-plus"
-        @click="goToCreateNote"
+        to="/notes/new"
       >
         Создать заметку
       </UButton>
     </section>
 
-    <div class="pt-4">
-      <div
-        v-if="notes.length"
-        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4"
-      >
-        <NoteCard
-          v-for="note in notes"
-          :key="note.id"
-          :note="note"
-          :preview-todos="notesStore.getTodoPreviewByNoteId(note.id)"
-          @delete="requestDeleteNote"
-        />
-      </div>
+    <div
+      v-if="notes.length"
+      class="notes-page__grid"
+    >
+      <NoteCard
+        v-for="note in notes"
+        :key="note.id"
+        :note="note"
+        :preview-todos="notesStore.getTodoPreviewByNoteId(note.id)"
+        @delete="requestDeleteNote"
+      />
+    </div>
 
-      <div
-        v-else
-        class="text-sm text-muted"
-      >
-        Заметок пока нет. Создайте первую заметку.
-      </div>
+    <div
+      v-else
+      class="notes-page__empty"
+    >
+      Заметок пока нет. Создайте первую заметку.
     </div>
 
     <ConfirmModal
@@ -86,3 +79,49 @@ function confirmDeleteNote() {
     />
   </div>
 </template>
+
+<style scoped lang="scss">
+@use '~/assets/scss/variables' as app;
+
+.notes-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  &__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  &__title {
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+
+    @media (min-width: app.$bp-sm) {
+      gap: 16px;
+    }
+
+    @media (min-width: app.$bp-md) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media (min-width: app.$bp-lg) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  &__empty {
+    font-size: 14px;
+    color: var(--ui-text-muted, #737373);
+  }
+}
+</style>
