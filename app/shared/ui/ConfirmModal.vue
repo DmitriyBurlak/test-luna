@@ -30,7 +30,7 @@ function onConfirm() {
       header: 'max-w-[92%] text-lg p-6!',
       content: 'max-w-130 rounded-2xl',
       title: 'font-bold',
-      footer: 'p-4! border-t border-solid'
+      footer: 'p-4! border-t border-muted'
     }"
     :close="{
       color: 'neutral',

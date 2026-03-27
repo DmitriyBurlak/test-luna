@@ -1,18 +1,11 @@
 import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
 
+import { createId } from '~/shared/lib/createId'
 import type { Note, TodoItem } from './types'
 
-const TODO_PREVIEW_LIMIT = 3
+const TODO_PREVIEW_LIMIT = 6
 const NOTES_STORAGE_KEY = 'notes-store-v1'
-
-function createId(): string {
-  if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
-    return crypto.randomUUID()
-  }
-
-  return `${Date.now()}-${Math.random().toString(16).slice(2)}`
-}
 
 function cloneTodos(todos: TodoItem[]): TodoItem[] {
   return todos.map(todo => ({ ...todo }))

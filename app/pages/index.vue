@@ -42,10 +42,6 @@ function goToCreateNote() {
   router.push('/notes/new')
 }
 
-function goToEditNote(noteId: string) {
-  router.push(`/notes/${noteId}`)
-}
-
 function requestDeleteNote(noteId: string) {
   noteIdForDelete.value = noteId
 }
@@ -62,19 +58,16 @@ function confirmDeleteNote() {
 
 <template>
   <div class="space-y-6">
-    <section class="space-y-3">
+    <section class="flex! it! justify-between! gap-4!">
       <h1 class="text-2xl font-semibold">
         Заметки
       </h1>
-      <p class="text-sm text-muted">
-        Список всех заметок и быстрые действия.
-      </p>
       <div class="flex flex-wrap gap-2">
         <UButton
           icon="i-lucide-plus"
           @click="goToCreateNote"
         >
-          Создать новую заметку
+          Создать заметку
         </UButton>
         <UButton
           color="neutral"
@@ -97,7 +90,6 @@ function confirmDeleteNote() {
           :key="note.id"
           :note="note"
           :preview-todos="notesStore.getTodoPreviewByNoteId(note.id)"
-          @edit="goToEditNote"
           @delete="requestDeleteNote"
         />
       </div>
@@ -106,7 +98,7 @@ function confirmDeleteNote() {
         v-else
         class="text-sm text-muted"
       >
-        Заметок пока нет. Создайте первую заметку или добавьте демо-данные.
+        Заметок пока нет. Создайте первую заметку.
       </div>
     </div>
 
