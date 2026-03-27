@@ -8,7 +8,7 @@
 
     <template #right>
       <UButton
-        to="https://github.com/nuxt-ui-templates/starter"
+        to="https://github.com/DmitriyBurlak/test-luna"
         target="_blank"
         icon="i-simple-icons-github"
         aria-label="GitHub"

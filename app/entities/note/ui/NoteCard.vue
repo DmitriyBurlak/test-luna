@@ -23,18 +23,18 @@ function openNote() {
   >
     <template #header>
       <div
-        class="flex items-center justify-between gap-2 cursor-pointer!"
+        class="flex items-center justify-between gap-2 cursor-pointer"
         @click="openNote"
       >
         <h3 class="text-sm sm:text-base font-semibold leading-tight line-clamp-2">
           {{ props.note.title }}
         </h3>
-        <uButton
+        <UButton
           color="error"
           variant="soft"
           size="sm"
           icon="i-lucide-trash"
-          class="cursor-pointer!"
+          class="cursor-pointer"
           @click.stop="emit('delete', props.note.id)"
         />
       </div>

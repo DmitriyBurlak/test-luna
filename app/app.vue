@@ -11,7 +11,7 @@ useHead({
   }
 })
 
-const title = 'Nuxt test task'
+const title = 'Луна тестовое задание'
 const description = ''
 
 useSeoMeta({

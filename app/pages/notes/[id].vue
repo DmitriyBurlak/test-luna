@@ -24,10 +24,10 @@ const {
 </script>
 
 <template>
-  <div>
+  <div class="space-y-6">
     <BackButton />
 
-    <div class="pt-6">
+    <div>
       <h1
         v-if="!isCreateMode && !sourceNote"
         class="text-xl font-semibold"
@@ -37,7 +37,7 @@ const {
 
       <div
         v-else
-        class="space-y-6!"
+        class="flex flex-col gap-6"
       >
         <h1 class="text-2xl font-semibold">
           {{ isCreateMode ? 'Создание заметки' : 'Редактирование заметки' }}
@@ -66,7 +66,7 @@ const {
           @update-done="updateTodoDone($event.todoId, $event.done)"
         />
 
-        <div class="flex flex-wrap gap-2">
+        <div class="flex flex-wrap flex-col sm:flex-row gap-2">
           <UButton
             icon="i-lucide-save"
             :disabled="!title.trim().length || !isDirty"

@@ -22,22 +22,6 @@ const selectedNote = computed(() =>
 
 const notes = computed(() => notesStore.allNotes)
 
-function createDemoNote() {
-  const demoNote = notesStore.createNote({
-    title: `Демо-заметка ${notes.value.length + 1}`,
-    todos: [
-      { id: `${Date.now()}-1`, text: 'Сформировать список задач', done: false },
-      { id: `${Date.now()}-2`, text: 'Проверить сохранение после F5', done: false },
-      { id: `${Date.now()}-3`, text: 'Открыть страницу редактирования', done: true },
-      { id: `${Date.now()}-4`, text: 'Удалить заметку через модалку', done: false }
-    ]
-  })
-
-  if (demoNote.id) {
-    noteIdForDelete.value = null
-  }
-}
-
 function goToCreateNote() {
   router.push('/notes/new')
 }
@@ -58,26 +42,16 @@ function confirmDeleteNote() {
 
 <template>
   <div class="space-y-6">
-    <section class="flex! it! justify-between! gap-4!">
+    <section class="flex! justify-between! flex-wrap gap-4!">
       <h1 class="text-2xl font-semibold">
         Заметки
       </h1>
-      <div class="flex flex-wrap gap-2">
-        <UButton
-          icon="i-lucide-plus"
-          @click="goToCreateNote"
-        >
-          Создать заметку
-        </UButton>
-        <UButton
-          color="neutral"
-          variant="soft"
-          icon="i-lucide-flask-conical"
-          @click="createDemoNote"
-        >
-          Создать демо-заметку
-        </UButton>
-      </div>
+      <UButton
+        icon="i-lucide-plus"
+        @click="goToCreateNote"
+      >
+        Создать заметку
+      </UButton>
     </section>
 
     <div class="pt-4">
@@ -105,7 +79,7 @@ function confirmDeleteNote() {
     <ConfirmModal
       v-model:open="isDeleteModalOpen"
       title="Удалить заметку?"
-      :description="`Вы уверены что хотете удалить заметку - «${selectedNote?.title || ''}» ?`"
+      :description="`Вы уверены, что хотите удалить заметку «${selectedNote?.title || ''}»?`"
       confirm-text="Удалить"
       cancel-text="Отмена"
       @confirm="confirmDeleteNote"

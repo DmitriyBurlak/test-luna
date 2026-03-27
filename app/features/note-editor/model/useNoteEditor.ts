@@ -1,6 +1,7 @@
 import type { TodoItem } from '~/entities/note'
 import { useNotesStore } from '~/entities/note'
 import { createId } from '~/shared/lib/createId'
+import { useEditorHistory } from './useEditorHistory'
 
 export function useNoteEditor() {
   const route = useRoute()
@@ -13,6 +14,13 @@ export function useNoteEditor() {
 
   const title = ref('')
   const todos = ref<TodoItem[]>([])
+  const {
+    canUndo,
+    canRedo,
+    initHistory,
+    undo,
+    redo
+  } = useEditorHistory(title, todos)
 
   const isCancelModalOpen = ref(false)
   const isDeleteModalOpen = ref(false)
@@ -45,15 +53,18 @@ export function useNoteEditor() {
     if (isCreateMode.value) {
       title.value = ''
       todos.value = []
+      initHistory()
       return
     }
 
     if (!sourceNote.value) {
+      initHistory()
       return
     }
 
     title.value = sourceNote.value.title
     todos.value = sourceNote.value.todos.map(todo => ({ ...todo }))
+    initHistory()
   }
 
   function addTodo() {
@@ -99,6 +110,7 @@ export function useNoteEditor() {
         color: 'success'
       })
       router.replace(`/notes/${created.id}`)
+      initHistory()
       return
     }
 
@@ -111,6 +123,7 @@ export function useNoteEditor() {
       description: 'Изменения заметки сохранены.',
       color: 'success'
     })
+    initHistory()
   }
 
   function askCancelEdit() {
@@ -149,11 +162,15 @@ export function useNoteEditor() {
     isDirty,
     isCancelModalOpen,
     isDeleteModalOpen,
+    canUndo,
+    canRedo,
     addTodo,
     removeTodo,
     updateTodoText,
     updateTodoDone,
     saveNote,
+    undo,
+    redo,
     askCancelEdit,
     confirmCancelEdit,
     askDeleteNote,
